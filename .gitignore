@@ -1,0 +1,5 @@
+/node_modules/
+.idea/
+nodemodules/ build/ public/ /dist/ .env .DSStore
+.vscode/ .encrypt/ .eslintrc.json
+*.log
