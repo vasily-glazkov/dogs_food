@@ -1,47 +1,58 @@
-const onResponce = (res) => {
+// Функция обработчик промиса
+const onResponse = (res) => {
     return res.ok ? res.json() : Promise.reject(`Ошибка: ${res.status}`);
 }
 
+// Класс для работы с API
 class Api {
-    constructor({ baseUrl, headers }) {
+    // Конструктор класса, принимает объект с параметрами для работы с API
+    constructor({baseUrl, headers}) {
+        // Заголовки запросов
         this._headers = headers;
+        // Базовый URL API
         this._baseUrl = baseUrl;
     }
 
+    // Метод для получения списка товаров
     getProductList() {
         return fetch(`${this._baseUrl}/products`, {
             headers: this._headers
-        }).then(onResponce)
+        }).then(onResponse)
     }
 
+    // Метод для получения информации о пользователе
     getUserInfo() {
         return fetch(`${this._baseUrl}/users/me`, {
             headers: this._headers
-        }).then(onResponce)
+        }).then(onResponse)
     }
 
+    // Метод для установки информации о пользователе
     setUserInfo(dataUser) {
         return fetch(`${this._baseUrl}/users/me`, {
             method: 'PATCH',
             headers: this._headers,
             body: JSON.stringify(dataUser)
-        }).then(onResponce)
+        }).then(onResponse)
     }
 
+    // Метод для поиска товаров
     search(searchQuery) {
         return fetch(`${this._baseUrl}/products/search?query=${searchQuery}`, {
             headers: this._headers
-        }).then(onResponce)
+        }).then(onResponse)
     }
 
+    // Метод для изменения лайков товаров
     changeLikeProduct(productId, isLike) {
         return fetch(`${this._baseUrl}/products/likes/${productId}`, {
             method: isLike ? "DELETE" : "PUT",
             headers: this._headers
-        }).then(onResponce)
+        }).then(onResponse)
     }
 }
 
+// Конфигурация для работы с API
 const config = {
     baseUrl: 'https://api.react-learning.ru',
     headers: {

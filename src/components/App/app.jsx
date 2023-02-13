@@ -53,30 +53,38 @@ function App() {
     handleRequest();
   }, [debounceSearchQuery]);
 
+
+  // функция обрабатывает отправку данных из формы
   const handleFormSubmit = (e) => {
     e.preventDefault();
     handleRequest();
   };
 
+
+  // функция обрабатывает изменения в поле input
   const handleInputChange = (inputValue) => {
     setSearchQuery(inputValue);
   };
 
+
+  // обновляет информацию о пользователе
   function handleUpdateUser(userUpdateData) {
     api.setUserInfo(userUpdateData).then((newUserData) => {
       setCurrentUser(newUserData);
     });
   }
 
+  // обновляет лайки по продукту
   function handleProductLike(product) {
     const liked = isLiked(product.likes, currentUser._id);
+
+    // обращаемся к api чтобы обновить статус лайка
     api.changeLikeProduct(product._id, liked).then((newCard) => {
       const newProducts = cards.map((cardState) => {
-        console.log("Карточка из стейта", cardState);
-        console.log("Карточка c сервера", newCard);
         return cardState._id === newCard._id ? newCard : cardState;
       });
 
+      // Обновляем статус карточек
       setCards(newProducts);
     });
   }
